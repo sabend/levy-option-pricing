@@ -97,3 +97,92 @@ Figure [\[fig:pricing\_errors\_vs\_cputime\]](#fig:pricing_errors_vs_cputime),
 but this takes place on an already extremely small level of overall
 pricing error. The pCOS implementation however accomplishes this
 precision with a much lower CPU time to be spent on the computations.
+
+## Insights into the COS Method
+
+Since we identified the COS method as the best-suited out of the four
+presented numerical algorithms to solve the pricing problem for
+arbitrary Lévy models, we now address some implementational issues. We
+saw above that the COS method requires a lot less computational effort
+than the FFT or FRFT algorithms due to reaching a comparable accuracy
+with less summands. A natural question now is: How far can the number
+\(N\) of summands be decreased to still get a sufficiently accurate
+option value? In practise one could require the numerical result to be
+correct up to two digits after the decimal point since this corresponds
+to the smallest payable Euro amount. To analyse the effect of
+diminishing \(N\) we perform a simulation study and apply the COS method
+for both the Black-Scholes and the CGMY model to an initially fixed
+randomly generated parameter set of size \(100\). For each of the
+\(100\) parameter sets each single parameter is independently uniformly
+sampled from a predetermined bounded interval, c.f.
+Table [1](#tab:parameters).
+
+<div id="tab:parameters">
+
+|               |                  |
+| :-----------: | :--------------: |
+| **Parameter** |    **Domain**    |
+|     \(r\)     |     \(0.01\)     |
+|    \(S_0\)    |      \(5\)       |
+|  \(\sigma\)   | \([0.05, 0.95]\) |
+|     \(C\)     |  \([0.01, 2]\)   |
+|     \(G\)     |    \([1, 5]\)    |
+|     \(M\)     |    \([1, 5]\)    |
+|     \(Y\)     |  \([0.1, 0.9]\)  |
+|     \(T\)     |    \([1, 3]\)    |
+|     \(K\)     |    \([4, 6]\)    |
+
+Parameters domains for COS pricing in both the Black-Scholes and the
+CGMY model.
+
+</div>
+
+The market parameters \(r\) and \(S_0\) as well as the option parameter
+intervals for \(T\) and \(K\) are also depicted in
+Table [\[tab:parameters\]](#tab:parameters). The strike range from
+\(4\) to \(6\) corresponds to a \(20 \%\) spreading around the current
+stock price, which covers relevant options for applications. As
+reference prices we use the results of direct integration of
+[\[eq:fourier\_pricing\_formula\]](#eq:fourier_pricing_formula) with
+\(\alpha = -1.1\) via the MATLAB function *quadgk* in the CGMY case and
+formula [\[eq:black\_scholes\_formula\]](#eq:black_scholes_formula) in
+the Black-Scholes case. The truncation bounds for both the Black-Scholes
+and the CGMY model are tabulated in Appendix
+[\[app:cumulant\_derivation\]](#app:cumulant_derivation). For various
+numbers of summands, ranging from \(10\) to \(20,000\), we apply the COS
+method for both Lévy models to the random parameter sets, determine the
+resulting \(100\) absolute pricing errors and plot the maximal, average
+and minimal of these errors over the corresponding \(N\). The outcome is
+depicted in
+Figure [\[fig:pricing\_error\_vs\_cos\_n\]](#fig:pricing_error_vs_cos_n).
+
+![image](Matlab_Images/Pricing_Error_vs_COS_N.pdf)
+<span id="fig:pricing_error_vs_cos_n" label="fig:pricing_error_vs_cos_n">\[fig:pricing\_error\_vs\_cos\_n\]</span>
+![image](Matlab_Images/Pricing_Error_for_Parameter_Set.pdf)
+<span id="fig:pricing_error_for_parameter_set" label="fig:pricing_error_for_parameter_set">\[fig:pricing\_error\_for\_parameter\_set\]</span>
+
+First note that the pricing error decay is much quicker for the
+Black-Scholes model than for the CGMY model. This is due to the higher
+degree of complexity of the four-parametric CGMY model compared to the
+1-parametric Black-Scholes model. From the cumulant derivation in
+Appendix [\[app:cumulant\_derivation\]](#app:cumulant_derivation) we get
+that the Black-Scholes cumulants are zero from order three on. Thus the
+truncation bounds do not change as higher order cumulants are taken into
+account. For the CGMY model these higher order cumulants are especially
+relevant, c.f. .
+Figure [\[fig:pricing\_error\_for\_parameter\_set\]](#fig:pricing_error_for_parameter_set)
+shows the pricing error for each of the parameter sets for \(20,000\)
+summands in the COS method. It would be difficult to reduce these even
+further as in contrast to the Black-Scholes case the reference value
+does not stem from an analytical formula. It rather is itself obtain
+from a numerical integration scheme. As such it is exposed to the
+integration parameters, i.e. the level of the dampening coefficient
+\(\alpha\). In Figure [1](#fig:pricing_error_vs_b-a) for a COS parameter
+of \(N = 20,000\) we plot the resulting pricing error versus the width
+\(b - a\) of the underlying integration domain. The plot indicates that
+the maximal pricing error of \(0.0095\) in this case is not affected by
+the size of the truncation bounds \(a\) and \(b\). Instead it reflects
+some amount of inaccuracy of both COS and *quadgk* based pricing.
+
+![image](Matlab_Images/Pricing_Error_vs_Integration_Interval_Width.pdf)
+<span id="fig:pricing_error_vs_b-a" label="fig:pricing_error_vs_b-a">\[fig:pricing\_error\_vs\_b-a\]</span>
