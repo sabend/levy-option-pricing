@@ -54,7 +54,7 @@ remaining parameters for the Fourier transform based pricing algorithms
 are \(\alpha = -4\) and \(\eta = 0.25\). The parameter \(\lambda\) was
 chosen adaptively by the respective pricing algorithms.
 
-![image](Matlab_Images/Pricing_Error_vs_cputime.pdf)
+![image](images/pricing_error_vs_cputime.pdf)
 <span id="fig:pricing_errors_vs_cputime" label="fig:pricing_errors_vs_cputime">\[fig:pricing\_errors\_vs\_cputime\]</span>
 
 First we notice that for both pCOS as well as pFT the pricing error
@@ -76,7 +76,7 @@ Secondly, to check whether the CPU time actually is reduced by using FFT
 and FRFT based pricing algorithms instead of the ordinary pFT we
 consider Figure [\[fig:cputime\_vs\_N\]](#fig:cputime_vs_N).
 
-![image](Matlab_Images/cputime_vs_N.pdf)
+![image](images/cputime_vs_n.pdf)
 <span id="fig:cputime_vs_N" label="fig:cputime_vs_N">\[fig:cputime\_vs\_N\]</span>
 
 Indeed the FFT based pricing implementation requires less CPU time for a
@@ -156,9 +156,9 @@ and minimal of these errors over the corresponding \(N\). The outcome is
 depicted in
 Figure [\[fig:pricing\_error\_vs\_cos\_n\]](#fig:pricing_error_vs_cos_n).
 
-![image](Matlab_Images/Pricing_Error_vs_COS_N.pdf)
+![image](images/pricing_error_vs_cos_n.pdf)
 <span id="fig:pricing_error_vs_cos_n" label="fig:pricing_error_vs_cos_n">\[fig:pricing\_error\_vs\_cos\_n\]</span>
-![image](Matlab_Images/Pricing_Error_for_Parameter_Set.pdf)
+![image](images/pricing_error_for_parameter_set.pdf)
 <span id="fig:pricing_error_for_parameter_set" label="fig:pricing_error_for_parameter_set">\[fig:pricing\_error\_for\_parameter\_set\]</span>
 
 First note that the pricing error decay is much quicker for the
@@ -184,5 +184,5 @@ the maximal pricing error of \(0.0095\) in this case is not affected by
 the size of the truncation bounds \(a\) and \(b\). Instead it reflects
 some amount of inaccuracy of both COS and *quadgk* based pricing.
 
-![image](Matlab_Images/Pricing_Error_vs_Integration_Interval_Width.pdf)
+![image](Matlab_Images/pricing_error_vs_b-a.pdf)
 <span id="fig:pricing_error_vs_b-a" label="fig:pricing_error_vs_b-a">\[fig:pricing\_error\_vs\_b-a\]</span>
