@@ -1,5 +1,5 @@
 # levy-option-pricing
-Matlab implementation of option pricing and calibration methods based on Levy stochastic processes.
+Object-oriented Matlab implementation of option pricing and calibration methods based on Levy stochastic processes.
 
 The following is a chapter of my master thesis on bid-ask calibration of Levy models. It makes use of some of the provided code.
 
